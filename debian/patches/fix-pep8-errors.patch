@@ -1,0 +1,308 @@
+Description: Fix pe8 errors to comply with pep8 < 1.1
+Author: Chuck Short <zulcss@ubuntu.com>
+Forwarded: no
+diff -Naurp nova.orig/nova/api/openstack/compute/contrib/hosts.py nova/nova/api/openstack/compute/contrib/hosts.py
+--- nova.orig/nova/api/openstack/compute/contrib/hosts.py	2012-06-05 09:24:52.834901035 -0400
++++ nova/nova/api/openstack/compute/contrib/hosts.py	2012-06-05 09:46:19.214903187 -0400
+@@ -271,7 +271,7 @@ class HostController(object):
+             vcpus = [i['vcpus'] for i in instance_refs
+                      if i['project_id'] == project_id]
+ 
+-            mem = [i['memory_mb']  for i in instance_refs
++            mem = [i['memory_mb'] for i in instance_refs
+                    if i['project_id'] == project_id]
+ 
+             disk = [i['root_gb'] + i['ephemeral_gb'] for i in instance_refs
+diff -Naurp nova.orig/nova/api/openstack/compute/contrib/networks.py nova/nova/api/openstack/compute/contrib/networks.py
+--- nova.orig/nova/api/openstack/compute/contrib/networks.py	2012-06-05 09:24:52.834901035 -0400
++++ nova/nova/api/openstack/compute/contrib/networks.py	2012-06-05 09:46:34.746901667 -0400
+@@ -88,7 +88,7 @@ class NetworkController(object):
+         authorize(context)
+         networks = self.network_api.get_all(context)
+         result = [network_dict(net_ref) for net_ref in networks]
+-        return  {'networks': result}
++        return {'networks': result}
+ 
+     def show(self, req, id):
+         context = req.environ['nova.context']
+diff -Naurp nova.orig/nova/tests/api/openstack/compute/contrib/test_admin_actions.py nova/nova/tests/api/openstack/compute/contrib/test_admin_actions.py
+--- nova.orig/nova/tests/api/openstack/compute/contrib/test_admin_actions.py	2012-06-05 09:24:52.958901035 -0400
++++ nova/nova/tests/api/openstack/compute/contrib/test_admin_actions.py	2012-06-05 09:43:23.818903213 -0400
+@@ -17,7 +17,7 @@ import json
+ 
+ import webob
+ 
+-from nova.api.openstack  import compute as compute_api
++from nova.api.openstack import compute as compute_api
+ from nova import compute
+ from nova import context
+ from nova import exception
+diff -Naurp nova.orig/nova/tests/api/openstack/compute/contrib/test_disk_config.py nova/nova/tests/api/openstack/compute/contrib/test_disk_config.py
+--- nova.orig/nova/tests/api/openstack/compute/contrib/test_disk_config.py	2012-06-05 09:24:52.958901035 -0400
++++ nova/nova/tests/api/openstack/compute/contrib/test_disk_config.py	2012-06-05 09:45:00.626901631 -0400
+@@ -17,7 +17,7 @@
+ 
+ import datetime
+ 
+-from nova.api.openstack  import compute
++from nova.api.openstack import compute
+ from nova.api.openstack.compute import extensions
+ from nova.api.openstack import wsgi
+ import nova.db.api
+diff -Naurp nova.orig/nova/tests/api/openstack/compute/contrib/test_scheduler_hints.py nova/nova/tests/api/openstack/compute/contrib/test_scheduler_hints.py
+--- nova.orig/nova/tests/api/openstack/compute/contrib/test_scheduler_hints.py	2012-06-05 09:24:52.962901035 -0400
++++ nova/nova/tests/api/openstack/compute/contrib/test_scheduler_hints.py	2012-06-05 09:46:01.318901650 -0400
+@@ -15,7 +15,7 @@
+ #    License for the specific language governing permissions and limitations
+ #    under the License.
+ 
+-from nova.api.openstack  import compute
++from nova.api.openstack import compute
+ from nova.api.openstack.compute import extensions
+ from nova.api.openstack import wsgi
+ import nova.db.api
+diff -Naurp nova.orig/nova/tests/api/openstack/compute/contrib/test_security_groups.py nova/nova/tests/api/openstack/compute/contrib/test_security_groups.py
+--- nova.orig/nova/tests/api/openstack/compute/contrib/test_security_groups.py	2012-06-05 09:24:52.966901035 -0400
++++ nova/nova/tests/api/openstack/compute/contrib/test_security_groups.py	2012-06-05 09:45:36.078901647 -0400
+@@ -815,7 +815,7 @@ class TestSecurityGroupRules(test.TestCa
+         self.assertRaises(webob.exc.HTTPBadRequest, self.controller.create,
+                           req, {'security_group_rule': rule})
+ 
+-    def  _test_create_with_no_ports(self, proto):
++    def _test_create_with_no_ports(self, proto):
+         rule = {'ip_protocol': proto, 'parent_group_id': '2', 'group_id': '1'}
+ 
+         req = fakes.HTTPRequest.blank('/v2/fake/os-security-group-rules')
+@@ -844,7 +844,7 @@ class TestSecurityGroupRules(test.TestCa
+         self._test_create_with_no_ports_and_no_group('udp')
+         self._test_create_with_no_ports('udp')
+ 
+-    def  _test_create_with_ports(self, id_val, proto, from_port, to_port):
++    def _test_create_with_ports(self, id_val, proto, from_port, to_port):
+         rule = {
+             'ip_protocol': proto, 'from_port': from_port, 'to_port': to_port,
+             'parent_group_id': '2', 'group_id': '1'
+diff -Naurp nova.orig/nova/tests/api/openstack/compute/contrib/test_simple_tenant_usage.py nova/nova/tests/api/openstack/compute/contrib/test_simple_tenant_usage.py
+--- nova.orig/nova/tests/api/openstack/compute/contrib/test_simple_tenant_usage.py	2012-06-05 09:24:52.966901035 -0400
++++ nova/nova/tests/api/openstack/compute/contrib/test_simple_tenant_usage.py	2012-06-05 09:44:42.718901633 -0400
+@@ -55,15 +55,15 @@ def fake_instance_type_get(self, context
+ 
+ 
+ def get_fake_db_instance(start, end, instance_id, tenant_id):
+-    return  {'id': instance_id,
+-             'image_ref': '1',
+-             'project_id': tenant_id,
+-             'user_id': 'fakeuser',
+-             'display_name': 'name',
+-             'state_description': 'state',
+-             'instance_type_id': 1,
+-             'launched_at': start,
+-             'terminated_at': end}
++    return {'id': instance_id,
++            'image_ref': '1',
++            'project_id': tenant_id,
++            'user_id': 'fakeuser',
++            'display_name': 'name',
++            'state_description': 'state',
++            'instance_type_id': 1,
++            'launched_at': start,
++            'terminated_at': end}
+ 
+ 
+ def fake_instance_get_active_by_window(self, context, begin, end, project_id):
+diff -Naurp nova.orig/nova/tests/test_libvirt_vif.py nova/nova/tests/test_libvirt_vif.py
+--- nova.orig/nova/tests/test_libvirt_vif.py	2012-06-05 09:24:53.022901035 -0400
++++ nova/nova/tests/test_libvirt_vif.py	2012-06-05 09:43:01.350901645 -0400
+@@ -71,24 +71,24 @@ class LibvirtVifTestCase(test.TestCase):
+         self.xml_template = xml_file.read()
+ 
+     def _create_xml_info(self, vif_type, nics):
+-        return     {
+-                    'type': 'qemu',
+-                    'name': 'fake-name',
+-                    'uuid': 'fake-uuid',
+-                    'memory_kb': 100 * 1024,
+-                    'basepath': 'foobar',
+-                    'vcpus': 4,
+-                    'rescue': False,
+-                    'disk_prefix': '/dev/sda',
+-                    'driver_type': 'raw',
+-                    'root_device_type': 'disk',
+-                    'vif_type': vif_type,
+-                    'nics': nics,
+-                    'ebs_root': True,
+-                    'ephemeral_device': False,
+-                    'volumes': [],
+-                    'use_virtio_for_bridges': False,
+-                    'ephemerals': []}
++        return {
++                'type': 'qemu',
++                'name': 'fake-name',
++                'uuid': 'fake-uuid',
++                'memory_kb': 100 * 1024,
++                'basepath': 'foobar',
++                'vcpus': 4,
++                'rescue': False,
++                'disk_prefix': '/dev/sda',
++                'driver_type': 'raw',
++                'root_device_type': 'disk',
++                'vif_type': vif_type,
++                'nics': nics,
++                'ebs_root': True,
++                'ephemeral_device': False,
++                'volumes': [],
++                'use_virtio_for_bridges': False,
++                'ephemerals': []}
+ 
+     def _get_instance_xml(self, driver, vif_type):
+         nic_dict = driver.plug(self.instance, self.net, self.mapping)
+diff -Naurp nova.orig/nova/virt/baremetal/nodes.py nova/nova/virt/baremetal/nodes.py
+--- nova.orig/nova/virt/baremetal/nodes.py	2012-06-05 09:24:53.046901035 -0400
++++ nova/nova/virt/baremetal/nodes.py	2012-06-05 10:04:01.830901761 -0400
+@@ -34,7 +34,7 @@ FLAGS.register_opts(baremetal_opts)
+ 
+ def get_baremetal_nodes():
+     d = FLAGS.baremetal_driver
+-    if  d == 'tilera':
++    if d == 'tilera':
+         return tilera.get_baremetal_nodes()
+     elif d == 'fake':
+         return fake.get_baremetal_nodes()
+diff -Naurp nova.orig/nova/virt/baremetal/proxy.py nova/nova/virt/baremetal/proxy.py
+--- nova.orig/nova/virt/baremetal/proxy.py	2012-06-05 09:24:53.046901035 -0400
++++ nova/nova/virt/baremetal/proxy.py	2012-06-05 10:19:45.730902641 -0400
+@@ -663,9 +663,9 @@ class ProxyConnection(driver.ComputeDriv
+         #TODO(mdragon): console proxy should be implemented for baremetal,
+         #               in case someone wants to use it.
+         #               For now return fake data.
+-        return  {'address': '127.0.0.1',
+-                 'username': 'fakeuser',
+-                 'password': 'fakepassword'}
++        return {'address': '127.0.0.1',
++                'username': 'fakeuser',
++                'password': 'fakepassword'}
+ 
+     def refresh_security_group_rules(self, security_group_id):
+         # Bare metal doesn't currently support security groups
+diff -Naurp nova.orig/nova/virt/fake.py nova/nova/virt/fake.py
+--- nova.orig/nova/virt/fake.py	2012-06-05 09:24:53.050901035 -0400
++++ nova/nova/virt/fake.py	2012-06-05 09:41:00.598901596 -0400
+@@ -228,9 +228,9 @@ class FakeConnection(driver.ComputeDrive
+                 'port': 6969}
+ 
+     def get_console_pool_info(self, console_type):
+-        return  {'address': '127.0.0.1',
+-                 'username': 'fakeuser',
+-                 'password': 'fakepassword'}
++        return {'address': '127.0.0.1',
++                'username': 'fakeuser',
++                'password': 'fakepassword'}
+ 
+     def refresh_security_group_rules(self, security_group_id):
+         return True
+diff -Naurp nova.orig/nova/virt/libvirt/connection.py nova/nova/virt/libvirt/connection.py
+--- nova.orig/nova/virt/libvirt/connection.py	2012-06-05 09:24:53.054901035 -0400
++++ nova/nova/virt/libvirt/connection.py	2012-06-05 09:41:31.026901537 -0400
+@@ -1783,7 +1783,7 @@ class LibvirtConnection(driver.ComputeDr
+         else:
+             avail = (int(m[idx1 + 1]) + int(m[idx2 + 1]) + int(m[idx3 + 1]))
+             # Convert it to MB
+-            return  self.get_memory_mb_total() - avail / 1024
++            return self.get_memory_mb_total() - avail / 1024
+ 
+     def get_local_gb_used(self):
+         """Get the free hdd size(GB) of physical computer.
+@@ -1900,9 +1900,9 @@ class LibvirtConnection(driver.ComputeDr
+         #TODO(mdragon): console proxy should be implemented for libvirt,
+         #               in case someone wants to use it with kvm or
+         #               such. For now return fake data.
+-        return  {'address': '127.0.0.1',
+-                 'username': 'fakeuser',
+-                 'password': 'fakepassword'}
++        return {'address': '127.0.0.1',
++                'username': 'fakeuser',
++                'password': 'fakepassword'}
+ 
+     def refresh_security_group_rules(self, security_group_id):
+         self.firewall_driver.refresh_security_group_rules(security_group_id)
+diff -Naurp nova.orig/nova/virt/vmwareapi/vmops.py nova/nova/virt/vmwareapi/vmops.py
+--- nova.orig/nova/virt/vmwareapi/vmops.py	2012-06-05 09:24:53.062901035 -0400
++++ nova/nova/virt/vmwareapi/vmops.py	2012-06-05 09:42:20.294901542 -0400
+@@ -785,7 +785,7 @@ class VMWareVMOps(object):
+             task_info = self._session._call_method(vim_util,
+                                        "get_dynamic_property",
+                                        search_task, "Task", "info")
+-            if task_info.state in  ['queued', 'running']:
++            if task_info.state in ['queued', 'running']:
+                 time.sleep(2)
+                 continue
+             break
+diff -Naurp nova.orig/nova/virt/xenapi/volume_utils.py nova/nova/virt/xenapi/volume_utils.py
+--- nova.orig/nova/virt/xenapi/volume_utils.py	2012-06-05 09:24:53.070901035 -0400
++++ nova/nova/virt/xenapi/volume_utils.py	2012-06-05 09:41:58.590901630 -0400
+@@ -373,7 +373,7 @@ def _get_target_port(iscsi_string):
+     """Retrieve target port"""
+     if iscsi_string:
+         return iscsi_string[iscsi_string.find(':') + 1:]
+-    elif  iscsi_string is None or FLAGS.target_port:
++    elif iscsi_string is None or FLAGS.target_port:
+         return FLAGS.target_port
+ 
+ 
+diff -Naurp nova.orig/nova/virt/xenapi_conn.py nova/nova/virt/xenapi_conn.py
+--- nova.orig/nova/virt/xenapi_conn.py	2012-06-05 09:24:53.074901035 -0400
++++ nova/nova/virt/xenapi_conn.py	2012-06-05 09:40:32.030901494 -0400
+@@ -353,9 +353,9 @@ class XenAPIConnection(driver.ComputeDri
+ 
+     def get_console_pool_info(self, console_type):
+         xs_url = urlparse.urlparse(FLAGS.xenapi_connection_url)
+-        return  {'address': xs_url.netloc,
+-                 'username': FLAGS.xenapi_connection_username,
+-                 'password': FLAGS.xenapi_connection_password}
++        return {'address': xs_url.netloc,
++                'username': FLAGS.xenapi_connection_username,
++                'password': FLAGS.xenapi_connection_password}
+ 
+     def update_available_resource(self, ctxt, host):
+         """Updates compute manager resource info on ComputeNode table.
+diff -Naurp nova.orig/nova/vnc/xvp_proxy.py nova/nova/vnc/xvp_proxy.py
+--- nova.orig/nova/vnc/xvp_proxy.py	2012-06-05 09:24:53.074901035 -0400
++++ nova/nova/vnc/xvp_proxy.py	2012-06-05 09:38:42.042901572 -0400
+@@ -180,8 +180,8 @@ def get_wsgi_server():
+     LOG.audit(_("Starting nova-xvpvncproxy node (version %s)"),
+               version.version_string_with_vcs())
+ 
+-    return  wsgi.Server("XCP VNC Proxy",
+-                         XCPVNCProxy(),
+-                         protocol=SafeHttpProtocol,
+-                         host=FLAGS.xvpvncproxy_host,
+-                         port=FLAGS.xvpvncproxy_port)
++    return wsgi.Server("XCP VNC Proxy",
++                        XCPVNCProxy(),
++                        protocol=SafeHttpProtocol,
++                        host=FLAGS.xvpvncproxy_host,
++                        port=FLAGS.xvpvncproxy_port)
+diff -Naurp nova.orig/tools/hacking.py nova/tools/hacking.py
+--- nova.orig/tools/hacking.py	2012-06-05 09:24:53.090901035 -0400
++++ nova/tools/hacking.py	2012-06-05 09:47:14.830901594 -0400
+@@ -152,7 +152,7 @@ def nova_import_module_only(logical_line
+            split_line[2] == "import" and split_line[3] != "*" and
+            split_line[1] != "__future__" and
+            (len(split_line) == 4 or
+-           (len(split_line) == 6  and split_line[4] == "as"))):
++           (len(split_line) == 6 and split_line[4] == "as"))):
+         mod = split_line[3]
+         return importModuleCheck(mod, split_line[1])
+ 
+diff -Naurp nova.orig/tools/xenserver/vdi_chain_cleanup.py nova/tools/xenserver/vdi_chain_cleanup.py
+--- nova.orig/tools/xenserver/vdi_chain_cleanup.py	2012-06-05 09:24:53.094901035 -0400
++++ nova/tools/xenserver/vdi_chain_cleanup.py	2012-06-05 10:20:23.914902612 -0400
+@@ -94,7 +94,7 @@ def main():
+ 
+         stdout = stdout.strip()
+ 
+-        if  stdout.endswith('.vhd'):
++        if stdout.endswith('.vhd'):
+             try:
+                 descendents[stdout].append(fname)
+             except KeyError:

@@ -1,0 +1,11 @@
+nova-manage_flagfile_location.patch
+# Ubuntu specific patches below here. Note these can be dropped eventually.
+kombu_tests_timeout.patch
+#nova-console-monitor.patch
+path-to-the-xenhost.conf-fixup.patch
+fix-ubuntu-tests.patch
+fix-docs-build-without-network.patch
+0001-fix-useexisting-deprecation-warnings.patch
+fix-pep8-errors.patch
+CVE-2012-3360+3361.patch
+CVE-2012-3371.patch
